@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const emailRef = useRef();
@@ -9,11 +10,12 @@ const Login = () => {
   const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login(emailRef, passwordRef);
+      navigate("/dashboard");
     } catch {
       setError("email or password credentials do not match.");
     }

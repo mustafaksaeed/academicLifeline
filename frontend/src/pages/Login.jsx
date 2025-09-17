@@ -1,11 +1,24 @@
-import React, { useRef } from "react";
-import { Form, Button, Card, Container } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 const Login = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(emailRef, passwordRef);
+    } catch {
+      setError("email or password credentials do not match.");
+    }
+    setLoading(false);
+  };
   return (
     <>
       <Container
@@ -16,7 +29,8 @@ const Login = () => {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Login</h2>
-              <Form>
+              {error && <Alert variant="danger">{error}</Alert>}
+              <Form onSubmit={handleSubmit}>
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef}></Form.Control>
@@ -29,16 +43,14 @@ const Login = () => {
                     required
                   ></Form.Control>
                 </Form.Group>
-                <Button type="submit" className="w-100 mt-4">
+                <Button disabled={loading} type="submit" className="w-100 mt-4">
                   Submit
                 </Button>
               </Form>
             </Card.Body>
           </Card>
           <div className="w-100 text-center mt-2">
-            Dont have an account?{" "}
-            {/* ADDED: The Link component to wrap "Log in" */}
-            <Link to="/signup">Sign up</Link>
+            Dont have an account? <Link to="/signup">Sign up</Link>
           </div>
         </div>
       </Container>

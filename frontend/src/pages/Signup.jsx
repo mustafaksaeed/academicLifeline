@@ -9,12 +9,12 @@ const Signup = () => {
   const passwordconRef = useRef();
   const { signup } = useAuth();
   const [error, setError] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // FIXED: The typo 'valye' has been corrected to 'value'
     if (passwordRef.current.value !== passwordconRef.current.value) {
       return setError("Passwords do not match");
     }

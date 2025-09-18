@@ -6,12 +6,7 @@ import AuthContext from "./contexts/AuthContext";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-  return (
-    <>
-      {currentUser ? <UserNavbar /> : <WelcomeNavbar />}
-      <WelcomePage />
-    </>
-  );
+  return <>{currentUser ? <UserNavbar /> : <WelcomeNavbar />}</>;
 }
 
 export default App;

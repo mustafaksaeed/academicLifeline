@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 
 const Signup = () => {
   const { signup } = useAuth();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
 
   // async function handleSubmit(e) {
   //   e.preventDefault();
@@ -31,8 +31,7 @@ const Signup = () => {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Sign Up</h2>
-
-              {/* FIXED: 'handleSubmit' changed to 'onSubmit' */}
+              <Alert>{}</Alert>
               <Form
                 onSubmit={handleSubmit((data) => {
                   console.log(data);
@@ -40,34 +39,42 @@ const Signup = () => {
               >
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" ref={emailRef}></Form.Control>
+                  <Form.Control {...register("email")}></Form.Control>
                 </Form.Group>
                 <Form.Group id="password">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
-                    ref={passwordRef}
-                    required
+                    {...register("password", {
+                      required: true,
+                      pattern:
+                        "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$",
+                      message:
+                        "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character",
+                    })}
                   ></Form.Control>
                 </Form.Group>
                 <Form.Group id="password-confirm">
                   <Form.Label>Password Confirmation</Form.Label>
                   <Form.Control
                     type="password"
-                    ref={passwordconRef}
-                    required
+                    {...register("password-confirm", {
+                      required: true,
+                      pattern: {
+                        pattern:
+                          "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$",
+                        message:
+                          "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character",
+                      },
+                    })}
                   ></Form.Control>
                 </Form.Group>
-                <Button disabled={loading} type="submit" className="w-100 mt-4">
-                  Submit
-                </Button>
+                <Button type="submit">Submit</Button>
               </Form>
             </Card.Body>
           </Card>
           <div className="w-100 text-center mt-2">
-            Already have an Account?{" "}
-            {/* ADDED: The Link component to wrap "Log in" */}
-            <Link to="/login">Log In</Link>
+            Already have an Account? <Link to="/login">Log In</Link>
           </div>
         </div>
       </Container>
@@ -76,3 +83,9 @@ const Signup = () => {
 };
 
 export default Signup;
+
+/*
+Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
+
+
+*/

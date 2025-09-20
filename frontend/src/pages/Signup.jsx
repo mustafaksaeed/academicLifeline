@@ -1,33 +1,25 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
 import { Link } from "react-router-dom"; // <-- ADD THIS IMPORT
 import { useAuth } from "../contexts/AuthProvider";
-import { useForm } from "react-hook-form"; 
+import { useForm } from "react-hook-form";
 
 const Signup = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordconRef = useRef();
   const { signup } = useAuth();
-  const [error, setError] = useState("");
+  const { register, handleSubmit } = useForm();
 
-  const [loading, setLoading] = useState(false);
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    if (passwordRef.current.value !== passwordconRef.current.value) {
-      return setError("Passwords do not match");
-    }
-    try {
-      setError("");
-      setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-    } catch {
-      setError("failed to create an account");
-    }
-    setLoading(false);
-  }
+  //   try {
+  //     setError("");
+  //     setLoading(true);
+  //     await signup(emailRef.current.value, passwordRef.current.value);
+  //   } catch {
+  //     setError("failed to create an account");
+  //   }
+  //   setLoading(false);
+  // }
 
   return (
     <>
@@ -39,9 +31,13 @@ const Signup = () => {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Sign Up</h2>
-              {error && <Alert variant="danger">{error}</Alert>}
+
               {/* FIXED: 'handleSubmit' changed to 'onSubmit' */}
-              <Form onSubmit={handleSubmit}>
+              <Form
+                onSubmit={handleSubmit((data) => {
+                  console.log(data);
+                })}
+              >
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef}></Form.Control>

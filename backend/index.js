@@ -49,9 +49,6 @@ createMessage();
 
 */
 
-const uri = process.env.URI;
-const mongoclient = new MongoClient(uri);
-
 async function run() {
   try {
     const database = client.db("AcademicLifeline");

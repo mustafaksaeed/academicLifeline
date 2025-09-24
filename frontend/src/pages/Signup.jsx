@@ -18,9 +18,6 @@ const Signup = () => {
     console.log(data);
   };
 
-  const password = watch("password", ""); // for password confirmation
-
-  return (
     <Container
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}

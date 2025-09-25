@@ -15,9 +15,13 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    signup(data.email, data.password);
     console.log(data);
   };
 
+  const password = watch("password", "value");
+
+  return (
     <Container
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}
@@ -66,7 +70,6 @@ const Signup = () => {
                 {errors.password && <span>{errors.password.message}</span>}
               </Form.Group>
 
-              {/* Password Confirmation */}
               <Form.Group id="password-confirm">
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
-import { NavLink, useNavigate } from "react-router-dom";
+// import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, currentUser } = useAuth();
   const [fireError, setFireError] = useState("");
   const [loading, setLoading] = useState(false);
   const {
@@ -15,18 +15,22 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.password);
-      navigate("/dashboard");
+      // navigate("/dashboard");
+      console.log("currentUser", currentUser);
       setLoading(true);
     } catch (error) {
       console.log("error", error);
       setFireError(error.message);
+      setLoading(false);
+      console.log("currentUser");
     }
   };
+
   return (
     <>
       <Container
@@ -44,7 +48,7 @@ const Login = () => {
                   <Form.Control
                     type="email"
                     {...register("email", {
-                      required: "email is required",
+                      required: "Email is required",
                       pattern: {
                         value:
                           /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,

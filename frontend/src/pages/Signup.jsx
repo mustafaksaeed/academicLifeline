@@ -8,6 +8,7 @@ import { FirebaseError } from "firebase/app";
 const Signup = () => {
   const { signup } = useAuth();
   const [fireError, setFireError] = useState("");
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -18,6 +19,7 @@ const Signup = () => {
   const onSubmit = async (data) => {
     try {
       await signup(data.email, data.password);
+      setLoading(true);
       console.log(data);
     } catch (error) {
       console.error("error", error);
@@ -90,7 +92,7 @@ const Signup = () => {
                 )}
               </Form.Group>
               <span>{fireError}</span>
-              <Button type="submit" className="w-100 mt-3">
+              <Button disabled={loading} type="submit" className="w-100 mt-3">
                 Sign Up
               </Button>
             </Form>

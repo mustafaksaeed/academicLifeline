@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 
 const Login = () => {
   const { login } = useAuth();
-  const { fireError, setFireError } = useState("");
-  const { loading, setLoading } = useState(false);
+  const [fireError, setFireError] = useState("");
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,7 +20,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.password);
-      navigate("/dasboard");
+      navigate("/dashboard");
       setLoading(true);
     } catch (error) {
       console.log("error", error);
@@ -37,7 +37,7 @@ const Login = () => {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Login</h2>
-              //error
+
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
@@ -52,7 +52,7 @@ const Login = () => {
                       },
                     })}
                   >
-                    {errors && <span>{errors.email.message}</span>}
+                    {errors.email && <span>{errors.email.message}</span>}
                   </Form.Control>
                 </Form.Group>
                 <Form.Group id="password">
@@ -63,10 +63,10 @@ const Login = () => {
                       required: "password is required",
                     })}
                   >
-                    {errors && <span>{errors.password.message}</span>}
+                    {errors.password && <span>{errors.password.message}</span>}
                   </Form.Control>
-                  <span>{fireError}</span>
                 </Form.Group>
+                <span>{fireError}</span>
                 <Button disabled={loading} type="submit" className="w-100 mt-4">
                   Submit
                 </Button>

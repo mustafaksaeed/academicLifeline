@@ -1,26 +1,31 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
   const { login } = useAuth();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { fireError, setFireError } = useState("");
+  const { loading, setLoading } = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
-      await login(emailRef, passwordRef);
-      navigate("/dashboard");
-    } catch {
-      setError("email or password credentials do not match.");
+      await login(data.email, data.password);
+      navigate("/dasboard");
+      setLoading(true);
+    } catch (error) {
+      console.log("error", error);
+      setFireError(error.message);
     }
-    setLoading(false);
   };
   return (
     <>
@@ -32,19 +37,35 @@ const Login = () => {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Login</h2>
-              {error && <Alert variant="danger">{error}</Alert>}
-              <Form onSubmit={handleSubmit}>
+              //error
+              <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" ref={emailRef}></Form.Control>
+                  <Form.Control
+                    type="email"
+                    {...register("email", {
+                      required: "email is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                        message: "Invalid email address",
+                      },
+                    })}
+                  >
+                    {errors && <span>{errors.email.message}</span>}
+                  </Form.Control>
                 </Form.Group>
                 <Form.Group id="password">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
-                    ref={passwordRef}
-                    required
-                  ></Form.Control>
+                    {...register("password", {
+                      required: "password is required",
+                    })}
+                  >
+                    {errors && <span>{errors.password.message}</span>}
+                  </Form.Control>
+                  <span>{fireError}</span>
                 </Form.Group>
                 <Button disabled={loading} type="submit" className="w-100 mt-4">
                   Submit

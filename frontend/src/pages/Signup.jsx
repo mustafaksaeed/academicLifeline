@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useForm } from "react-hook-form";
+import { FirebaseError } from "firebase/app";
 
 const Signup = () => {
   const { signup } = useAuth();
-
+  const [fireError, setFireError] = useState("");
   const {
     register,
     handleSubmit,
@@ -14,9 +15,14 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    signup(data.email, data.password);
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await signup(data.email, data.password);
+      console.log(data);
+    } catch (error) {
+      console.error("error", error);
+      setFireError(error.message);
+    }
   };
 
   const password = watch("password", "value");
@@ -32,7 +38,6 @@ const Signup = () => {
             <h2 className="text-center mb-4">Sign Up</h2>
 
             <Form onSubmit={handleSubmit(onSubmit)}>
-              {/* Email */}
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -84,7 +89,7 @@ const Signup = () => {
                   <span>{errors.passwordConfirm.message}</span>
                 )}
               </Form.Group>
-
+              <span>{fireError}</span>
               <Button type="submit" className="w-100 mt-3">
                 Sign Up
               </Button>

@@ -55,7 +55,6 @@ const Signup = () => {
                 {errors.email && <span>{errors.email.message}</span>}
               </Form.Group>
 
-              {/* Password */}
               <Form.Group id="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control

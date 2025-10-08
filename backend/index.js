@@ -2,9 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import twilio from "twilio";
 import VoiceResponse from "twilio";
-import { MongoClient } from "mongodb";
+
+import run from "./db/database.js";
 
 dotenv.config();
+
 const app = express();
 const port = process.env.PORT;
 const accountSid = process.env.SID;
@@ -20,6 +22,8 @@ app.listen(port, () => {
 app.get("/health", (req, res) => {
   res.send("ok");
 });
+
+run();
 
 /*
 async function createCall() {
@@ -49,12 +53,4 @@ createMessage();
 
 */
 
-async function run() {
-  try {
-    const database = client.db("AcademicLifeline");
-    const users = database.collection("users");
-  } catch {
-    console.log("database connection error");
-  }
-}
-run().catch(console.dir);
+console.log("uri", process.env.URI);

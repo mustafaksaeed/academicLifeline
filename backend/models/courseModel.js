@@ -5,9 +5,10 @@ const courseSchema = new Schema({
     type: String,
     required: true,
   },
-  ref: "Courses",
-
 });
+
+const courseModel = model("Courses", courseSchema);
+export default courseModel;
 
 ("here we have the course name and code ");
 //revaluate if i want to send messages back

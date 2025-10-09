@@ -25,6 +25,8 @@ app.get("/health", (req, res) => {
 
 run();
 
+
+
 /*
 async function createCall() {
   const call = await client.calls.create({
@@ -52,5 +54,3 @@ async function createMessage() {
 createMessage();
 
 */
-
-console.log("uri", process.env.URI);

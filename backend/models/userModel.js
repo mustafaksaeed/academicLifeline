@@ -8,6 +8,16 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
+  phoneNumber: {
+    type: Number,
+    required: true,
+  },
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
   courses: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,4 +27,7 @@ const userSchema = Schema({
 });
 
 const User = model("User", userSchema);
-("make user schema with id as the fuid we create with auth, email, and password");
+
+export default User;
+
+// ("make user schema with id as the fuid we create with auth, email, and password");

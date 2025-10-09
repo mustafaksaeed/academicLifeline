@@ -14,7 +14,7 @@ const courseSchema = new Schema({
 const courseModel = model("Courses", courseSchema);
 export default courseModel;
 
-("here we have the course name and code ");
+"here we have the course name and code "
 //revaluate if i want to send messages back
 //maybe u have q class due soon send "y" to change to completed or someshit
 //coursecode, name, priority, status as in compleye or not

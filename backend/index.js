@@ -2,9 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import twilio from "twilio";
 import VoiceResponse from "twilio";
-
 import run from "./db/database.js";
-
+import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -19,13 +18,13 @@ app.listen(port, () => {
   console.log("listening on port", port);
 });
 
+app.use("/api", authRoutes);
+
 app.get("/health", (req, res) => {
   res.send("ok");
 });
 
 run();
-
-
 
 /*
 async function createCall() {

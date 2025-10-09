@@ -1,5 +1,4 @@
-import { Signup } from "../db/functions";
-import { Signin } from "../db/functions";
+import { Signin, Signup } from "../db/functions.js";
 
 export const register = async (req, res) => {
   try {

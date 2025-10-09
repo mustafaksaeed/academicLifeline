@@ -1,10 +1,14 @@
-export const createUser = async (data) => {
-  try {
-    const newUser = new User({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-    });
-  } catch (err) {}
+import { auth } from "../firebase.config";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+
+export const Signup = async (email, password) => {
+  return createUserWithEmailAndPassword(auth, email, password);
 };
-//firebase uid something here
+
+export const Signin = async (email, password) => {
+  return signInWithEmailAndPassword(auth, email, passord);
+};

@@ -13,6 +13,8 @@ const app = initializeApp({
 export const auth = getAuth(app);
 export default app;
 
+
+
 /*
 i can also try 
 

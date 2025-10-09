@@ -14,9 +14,9 @@ const reminderSchema = new Schema({
   dueDate: {
     type: Date,
   },
-  user: {
+  course: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "userCourse",
   },
 });
 

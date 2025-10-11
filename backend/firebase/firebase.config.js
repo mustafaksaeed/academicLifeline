@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import "dotenv/config";
 
 const app = initializeApp({
-  apiKey: process.env.apiKey,
+  apiKey: process.env.API_KEY,
   authDomain: process.env.authDomain,
   projectId: process.env.projectId,
   storageBucket: process.env.storageBucket,
@@ -11,8 +11,9 @@ const app = initializeApp({
   appId: process.env.appId,
 });
 
-export const auth = getAuth(app);
-export default app;
+const auth = getAuth(app);
+
+export default auth;
 
 /*
 i can also try 

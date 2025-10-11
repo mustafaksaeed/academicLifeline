@@ -12,4 +12,7 @@ router.post("/signup", register);
 
 router.post("/login", login);
 
+router.get("/test", (req, res) => {
+  res.send("auth route working");
+});
 export default router;

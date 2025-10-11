@@ -14,6 +14,7 @@ const client = twilio(accountSid, authToken);
 const twilioNum = process.env.twilioNum;
 const myNum = process.env.myNum;
 
+app.use(express.json());
 app.listen(port, () => {
   console.log("listening on port", port);
 });
@@ -21,6 +22,7 @@ app.listen(port, () => {
 app.use("/api", authRoutes);
 
 app.get("/health", (req, res) => {
+  console.log(req.body);
   res.send("ok");
 });
 

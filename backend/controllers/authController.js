@@ -14,13 +14,10 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const auth = getAuth();
   const { email, password } = req.body;
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("user", user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    console.log("logged in");
+  } catch (error) {
+    console.log("error:", error);
+  }
 };

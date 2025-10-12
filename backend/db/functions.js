@@ -1,6 +1,5 @@
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
@@ -13,3 +12,7 @@ export const Signup = async (email, password) => {
 export const Signin = async (email, password) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
+
+//create user here
+
+//verify token here

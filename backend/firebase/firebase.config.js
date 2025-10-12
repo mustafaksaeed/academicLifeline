@@ -10,7 +10,7 @@ const app = initializeApp({
   messagingSenderId: process.env.messagingSenderId,
   appId: process.env.appId,
 });
-
+//process.env.API_KEY
 const auth = getAuth(app);
 
 export default auth;
@@ -20,6 +20,6 @@ i can also try
 
 eg. apiKey: `${process.env.REACT_APP_FIREBASE_API_KEY}`,
 
-
+process.env.REACT_APP_FIREBASE_API_KEY
 
 */

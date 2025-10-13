@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import run from "./db/database.js";
+// import run from "./db/database.js";
 import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
@@ -19,4 +19,4 @@ app.get("/health", (req, res) => {
   res.send("ok");
 });
 
-run();
+// run();

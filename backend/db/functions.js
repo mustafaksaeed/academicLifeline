@@ -13,6 +13,27 @@ export const Signin = async (email, password) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
 
-//create user here
+export const createUser = async (email, password) => {
+  auth
+    .createUser({
+      email: email,
+      password: password,
+    })
+    .then((userRecord) => {
+      console.log("Successfully created new user:", userRecord.uid);
+    })
+    .catch((error) => {
+      console.log("Error creating new user:", error);
+    });
+};
 
-//verify token here
+export const userExistsCheck = async (email) => {
+  auth
+    .getUserByEmail(email)
+    .then((userRecord) => {
+      console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+    })
+    .catch((error) => {
+      console.error("Error fetching user data:", error);
+    });
+};

@@ -1,5 +1,6 @@
 import { initializeApp, cert } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import fs from "fs";
 import "dotenv/config";
 
 import { readFileSync } from "fs";

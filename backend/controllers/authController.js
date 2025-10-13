@@ -1,11 +1,11 @@
-import { Signup } from "../db/functions.js";
+import { createUser, userExistsCheck } from "../db/functions.js";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 //import Sign in function later
 export const register = async (req, res) => {
   try {
     const { email, password } = req.body;
-    await Signup(email, password);
-    console.log("email,password", email, password);
+    await userExistsCheck(email);
+    await createUser(email, password);
   } catch (error) {
     console.log("error:", error);
   }

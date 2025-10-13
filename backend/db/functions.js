@@ -14,26 +14,23 @@ export const Signin = async (email, password) => {
 };
 
 export const createUser = async (email, password) => {
-  auth
-    .createUser({
+  try {
+    const newUser = await auth.createUser({
       email: email,
       password: password,
-    })
-    .then((userRecord) => {
-      console.log("Successfully created new user:", userRecord.uid);
-    })
-    .catch((error) => {
-      console.log("Error creating new user:", error);
     });
+
+    console.log("user successfully created ", newUser.uid);
+  } catch (error) {
+    console.log(("error", error));
+  }
 };
 
 export const userExistsCheck = async (email) => {
-  auth
-    .getUserByEmail(email)
-    .then((userRecord) => {
-      console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-    })
-    .catch((error) => {
-      console.error("Error fetching user data:", error);
-    });
+  try {
+    const user = await auth.getUserByEmail(email);
+    console.log(`User already exists:`, user);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
 };

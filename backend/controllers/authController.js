@@ -1,5 +1,6 @@
 import { createUser, userExistsCheck } from "../db/functions.js";
-import { auth, signInWithEmailAndPassword } from "firebase/auth";
+
+import auth from "../firebase/firebase.config.js";
 
 //import Sign in function later
 export const register = async (req, res) => {
@@ -13,10 +14,8 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { uid } = req.body;
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-    console.log("logged in");
   } catch (error) {
     console.log("error:", error);
   }

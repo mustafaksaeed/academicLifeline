@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 // import run from "./db/database.js";
-import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
+import authRoutes from "./routes/authRoutes.js";
+import courseRoutes from "./routes/courseRoutes.js";
+import authorize from "./middleware/authMiddleware.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -13,6 +15,7 @@ app.listen(port, () => {
 });
 
 app.use("/api", authRoutes);
+app.use("/course", authorize, courseRoutes);
 
 app.get("/health", (req, res) => {
   console.log(req.body);

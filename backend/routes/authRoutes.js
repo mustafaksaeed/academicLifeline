@@ -2,7 +2,7 @@ import express from "express";
 // import User from "../models/userModel";
 // import Course from "../models/courseModelModel";
 import { register, login } from "../controllers/authController.js";
-import authToken from "../middleware/authMiddleware.js";
+
 import "dotenv/config";
 
 const router = express.Router();

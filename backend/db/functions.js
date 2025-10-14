@@ -38,7 +38,10 @@ export const userExistsCheck = async (email) => {
 export const authenticateToken = async (token) => {
   try {
     await auth.verifyIdToken(token);
+    console.log("token authorized");
   } catch (error) {
     console.log("error authentication token", error);
   }
 };
+
+//auth().currentUser.getIdToken. user logs in

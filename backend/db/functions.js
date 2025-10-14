@@ -34,3 +34,11 @@ export const userExistsCheck = async (email) => {
     console.error("Error fetching user data:", error);
   }
 };
+
+export const authenticateToken = async (token) => {
+  try {
+    await auth.verifyIdToken(token);
+  } catch (error) {
+    console.log("error authentication token", error);
+  }
+};

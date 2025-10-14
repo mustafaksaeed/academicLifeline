@@ -1,11 +1,13 @@
-import getAuth from "../firebase/firebase.config";
+import { authenticateToken } from "../db/functions";
 
-getAuth()
-  .verifyIdToken(idToken)
-  .then((decodedToken) => {
-    const uid = decodedToken.uid;
-    // ...
-  })
-  .catch((error) => {
-    // Handle error
-  });
+const authToken = async (req, res, next) => {
+  const { uid } = req.body;
+  try {
+    await authenticateToken(uid);
+    next();
+  } catch (error) {
+    console.log("middleware error", error);
+  }
+};
+
+export default authToken;

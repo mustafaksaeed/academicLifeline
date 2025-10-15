@@ -1,14 +1,13 @@
 import React from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../../../backend/firebase/firebaseClient.config.js";
 // import { useAuth } from "../contexts/AuthProvider";
 // import { NavLink, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 
-const app = getAuth(auth);
 const Login = () => {
   // const { login, currentUser } = useAuth();
   // const [fireError, setFireError] = useState("");
@@ -26,7 +25,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const credentials = await signInWithEmailAndPassword(
-        app,
+        auth,
         data.email,
         data.password
       );

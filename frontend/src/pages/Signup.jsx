@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { Form, Button, Card, Container } from "react-bootstrap";
+import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthProvider";
+// import { useAuth } from "../contexts/AuthProvider";
 import { useForm } from "react-hook-form";
-import { FirebaseError } from "firebase/app";
+// import { FirebaseError } from "firebase/app";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const { signup } = useAuth();
-  const [fireError, setFireError] = useState("");
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -16,14 +15,29 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+  //here just do a post request sending the users email and password and do that
   const onSubmit = async (data) => {
     try {
-      await signup(data.email, data.password);
+      const response = await fetch("http://localhost:8000/api/signup", {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      const responseData = await response.json();
+      console.log("Success:", responseData);
       setLoading(true);
-      console.log(data);
+      navigate("/login");
+      return responseData;
     } catch (error) {
-      console.error("error", error);
-      setFireError(error.message);
+      console.log("error", error);
     }
   };
 
@@ -90,7 +104,6 @@ const Signup = () => {
                   <span>{errors.passwordConfirm.message}</span>
                 )}
               </Form.Group>
-              <span>{fireError}</span>
               <Button disabled={loading} type="submit" className="w-100 mt-3">
                 Sign Up
               </Button>

@@ -1,4 +1,8 @@
-import { createUser, userExistsCheck } from "../db/functions.js";
+import {
+  createUser,
+  authenticateToken,
+  userExistsCheck,
+} from "../db/functions.js";
 
 import auth from "../firebase/firebase.config.js";
 
@@ -15,8 +19,10 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { uid } = req.body;
+  const { token } = req.body;
   try {
+    await authenticateToken(token);
+    console.log("token authenticated user can login");
   } catch (error) {
     console.log("error:", error);
   }

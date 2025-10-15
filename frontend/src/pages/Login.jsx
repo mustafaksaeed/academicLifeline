@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthProvider";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../../../backend/firebase/firebaseClient.config.js";
+// import { useAuth } from "../contexts/AuthProvider";
 // import { NavLink, useNavigate } from "react-router-dom";
+
 import { useForm } from "react-hook-form";
 
+const app = getAuth(auth);
 const Login = () => {
-  const { login, currentUser } = useAuth();
-  const [fireError, setFireError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const { login, currentUser } = useAuth();
+  // const [fireError, setFireError] = useState("");
+  // const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,18 +20,34 @@ const Login = () => {
   } = useForm();
 
   // const navigate = useNavigate();
-
+  //post request here user signs in using sign in
+  //uid is sent to login api then is validated
+  //then logged in x
   const onSubmit = async (data) => {
     try {
-      await login(data.email, data.password);
-      // navigate("/dashboard");
-      console.log("currentUser", currentUser);
-      setLoading(true);
+      const credentials = await signInWithEmailAndPassword(
+        app,
+        data.email,
+        data.password
+      );
+      const token = await credentials.user.getIdToken();
+      const response = await fetch("http://localhost:8000/api/login", {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+        }),
+      });
+
+      const responseData = await response.json();
+      console.log("Success:", responseData);
+      // setLoading(true);
+      return responseData;
     } catch (error) {
       console.log("error", error);
-      setFireError(error.message);
-      setLoading(false);
-      console.log("currentUser");
     }
   };
 
@@ -70,8 +90,8 @@ const Login = () => {
                     {errors.password && <span>{errors.password.message}</span>}
                   </Form.Control>
                 </Form.Group>
-                <span>{fireError}</span>
-                <Button disabled={loading} type="submit" className="w-100 mt-4">
+
+                <Button type="submit" className="w-100 mt-4">
                   Submit
                 </Button>
               </Form>
@@ -87,3 +107,26 @@ const Login = () => {
 };
 
 export default Login;
+
+//  fetch(endpoint, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(bookData),
+//   })
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.json();
+//     })
+//     .then((data) => {
+//       console.log("Book added successfully:", data);
+//       event.target.reset(); // Reset the form after successful submission
+//       navigate("/"); // Navigate back to the home page
+//     })
+//     .catch((error) => {
+//       console.error("Error adding book:", error);
+//     });
+// };

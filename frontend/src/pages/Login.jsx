@@ -2,7 +2,8 @@ import React from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../../../backend/firebase/firebaseClient.config.js";
+import auth from "../firebaseClient/firebaseClient.config";
+
 // import { useAuth } from "../contexts/AuthProvider";
 // import { NavLink, useNavigate } from "react-router-dom";
 

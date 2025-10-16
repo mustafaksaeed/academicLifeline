@@ -23,6 +23,7 @@ export const login = async (req, res) => {
   try {
     await authenticateToken(token);
     console.log("token authenticated user can login");
+    console.log("token", token);
   } catch (error) {
     console.log("error:", error);
   }

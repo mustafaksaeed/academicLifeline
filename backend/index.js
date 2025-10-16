@@ -17,7 +17,7 @@ app.listen(port, () => {
 });
 
 app.use("/api", authRoutes);
-app.use("/course", authorize, courseRoutes);
+app.use("/courses", authorize, courseRoutes);
 
 app.get("/health", (req, res) => {
   console.log(req.body);

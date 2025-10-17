@@ -18,6 +18,7 @@ const Signup = () => {
   const navigate = useNavigate();
   //here just do a post request sending the users email and password and do that
   const onSubmit = async (data) => {
+    const { email, password } = data;
     try {
       const response = await fetch("http://localhost:8000/api/signup", {
         method: "post",
@@ -26,8 +27,8 @@ const Signup = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: data.email,
-          password: data.password,
+          email: email,
+          password: password,
         }),
       });
 

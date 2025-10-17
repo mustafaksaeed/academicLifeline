@@ -21,9 +21,8 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const { token } = req.body;
   try {
-    await authenticateToken(token);
-    console.log("token authenticated user can login");
-    console.log("token", token);
+    const verifyToken = await authenticateToken(token);
+    res.send(verifyToken);
   } catch (error) {
     console.log("error:", error);
   }

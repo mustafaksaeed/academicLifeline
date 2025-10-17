@@ -37,11 +37,10 @@ export const userExistsCheck = async (email) => {
 
 export const authenticateToken = async (token) => {
   try {
-    await auth.verifyIdToken(token);
+    const atoken = await auth.verifyIdToken(token);
+    return atoken;
     console.log("token authorized");
   } catch (error) {
     console.log("error authentication token", error);
   }
 };
-
-

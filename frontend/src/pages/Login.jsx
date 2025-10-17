@@ -1,52 +1,50 @@
-// import React, { useContext } from "react";
+import React, { useContext } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import { signInWithEmailAndPassword } from "firebase/auth";
-// import auth from "../firebaseClient/firebaseClient.config";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../firebaseClient/firebaseClient.config";
 import AuthContext from "../contexts/AuthContext";
-import { Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-  // const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    // try {
-    //   const credentials = await signInWithEmailAndPassword(
-    //     auth,
-    //     data.email,
-    //     data.password
-    //   );
-    //   const token = await credentials.user.getIdToken();
-    //   const response = await fetch("http://localhost:8000/api/login", {
-    //     method: "post",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       token: token,
-    //     }),
-    //   });
-
-    //   const responseData = await response.json();
-    //   console.log("Success:", responseData);
-    navigate("/signup");
-    // setLoading(true);
-    // } catch (error) {
-    //   // setLoading(false);
-    //   <Navigate to="/signup" />;
-    //   console.log("error", error);
-    // }
+  const { register, handleSubmit } = useForm();
+  //    formState: { errors }
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+    console.log("curentuser", currentUser.accessToken);
+    try {
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log("credentials", credentials);
+      const token = await credentials.user.getIdToken();
+      console.log("token", token);
+      const response = await fetch("http://localhost:8000/api/login", {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+        }),
+      });
+      console.log("response", response);
+      // const responseData = await response.json();
+      // console.log("Success:", responseData);
+      // console.log("data", data.message);
+      // auth.getInstance().getCurrentUser().reload();
+      navigate("/dashboard");
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
@@ -78,7 +76,7 @@ const Login = () => {
                       },
                     })}
                   >
-                    {errors.email && <span>{errors.email.message}</span>}
+                    {/* {errors.email && <span>{errors.email.message}</span>} */}
                   </Form.Control>
                 </Form.Group>
                 <Form.Group id="password">
@@ -93,7 +91,7 @@ const Login = () => {
                       },
                     })}
                   >
-                    {errors.password && <span>{errors.password.message}</span>}
+                    {/* {errors.password && <span>{errors.password.message}</span>} */}
                   </Form.Control>
                 </Form.Group>
 

@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "../firebaseClient/firebaseClient.config";
-
-// import { useAuth } from "../contexts/AuthProvider";
-// import { NavLink, useNavigate } from "react-router-dom";
-
+import AuthContext from "../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-  // const { login, currentUser } = useAuth();
-  // const [fireError, setFireError] = useState("");
+  const { currentUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  console.log("currentUser", currentUser);
   // const [loading, setLoading] = useState(false);
   const {
     register,
@@ -19,10 +18,6 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  // const navigate = useNavigate();
-  //post request here user signs in using sign in
-  //uid is sent to login api then is validated
-  //then logged in x
   const onSubmit = async (data) => {
     try {
       const credentials = await signInWithEmailAndPassword(
@@ -44,9 +39,11 @@ const Login = () => {
 
       const responseData = await response.json();
       console.log("Success:", responseData);
+
       // setLoading(true);
-      return responseData;
     } catch (error) {
+      // setLoading(false);
+      <Navigate to="/signup" />;
       console.log("error", error);
     }
   };

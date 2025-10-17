@@ -4,6 +4,7 @@ const router = express.Router();
 
 //get courses
 router.get("/course", async (req, res) => {
+  res.send("courses", courses);
   console.log("courses");
 });
 

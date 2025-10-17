@@ -44,4 +44,4 @@ export const authenticateToken = async (token) => {
   }
 };
 
-//auth().currentUser.getIdToken. user logs in
+

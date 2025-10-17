@@ -7,8 +7,6 @@ import "dotenv/config";
 
 const router = express.Router();
 
-// eg. import { registerUser, loginUser } from '../controllers/auth.controller';
-//now instead of the async await you import the function into that section for the logic
 router.post("/signup", register);
 
 router.post("/login", login);

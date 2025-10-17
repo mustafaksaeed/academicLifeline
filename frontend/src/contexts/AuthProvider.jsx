@@ -1,39 +1,29 @@
-// import React, { useState, useEffect, useContext } from "react";
-// // import { auth } from "../firebase.config";
-// import {
-//   createUserWithEmailAndPassword,
-//   onAuthStateChanged,
-//   signInWithEmailAndPassword,
-// } from "firebase/auth";
-// import AuthContext from "./AuthContext";
+import React, { useState, useEffect } from "react";
+// import { auth } from "../firebase.config";
+import { onAuthStateChanged } from "firebase/auth";
+import AuthContext from "./AuthContext";
+import auth from "../firebaseClient/firebaseClient.config";
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  //change to react from hook maybe?
 
-// export function useAuth() {
-//   return useContext(AuthContext);
-// }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        user.getIdToken().then((token) => {
+          setCurrentUser({ ...user, token });
+        });
+      } else {
+        setCurrentUser(null);
+      }
+    });
 
-// export const AuthProvider = ({ children }) => {
-//   const [currentUser, setCurrentUser] = useState(null);
+    return unsubscribe;
+  }, []);
 
-//   const signup = (email, password) => {
-//     return createUserWithEmailAndPassword(auth, email, password);
-//   };
-
-//   const login = (email, password) => {
-//     return signInWithEmailAndPassword(auth, email, password);
-//   };
-
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, (user) => {
-//       setCurrentUser(user);
-//     });
-//     return unsubscribe;
-//   }, []);
-
-//   const value = {
-//     currentUser,
-//     signup,
-//     login,
-//   };
-
-//   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-// };
+  return (
+    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

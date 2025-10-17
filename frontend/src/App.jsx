@@ -5,13 +5,13 @@ import WelcomePage from "./pages/WelcomePage";
 // import AuthContext from "./contexts/AuthContext";
 
 import React from "react";
-import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./contexts/ProtectedRoute";
 
 const App = () => {
   return (
     <div>
       <WelcomeNavbar />
-      <Dashboard />
+      <ProtectedRoute />
     </div>
   );
 };

@@ -1,51 +1,52 @@
-import React, { useContext } from "react";
+// import React, { useContext } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../firebaseClient/firebaseClient.config";
+// import { signInWithEmailAndPassword } from "firebase/auth";
+// import auth from "../firebaseClient/firebaseClient.config";
 import AuthContext from "../contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
-  const { currentUser } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
-  console.log("currentUser", currentUser);
+  // const { currentUser } = useContext(AuthContext);
+
   // const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const credentials = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-      const token = await credentials.user.getIdToken();
-      const response = await fetch("http://localhost:8000/api/login", {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token,
-        }),
-      });
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    // try {
+    //   const credentials = await signInWithEmailAndPassword(
+    //     auth,
+    //     data.email,
+    //     data.password
+    //   );
+    //   const token = await credentials.user.getIdToken();
+    //   const response = await fetch("http://localhost:8000/api/login", {
+    //     method: "post",
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       token: token,
+    //     }),
+    //   });
 
-      const responseData = await response.json();
-      console.log("Success:", responseData);
-
-      // setLoading(true);
-    } catch (error) {
-      // setLoading(false);
-      <Navigate to="/signup" />;
-      console.log("error", error);
-    }
+    //   const responseData = await response.json();
+    //   console.log("Success:", responseData);
+    navigate("/signup");
+    // setLoading(true);
+    // } catch (error) {
+    //   // setLoading(false);
+    //   <Navigate to="/signup" />;
+    //   console.log("error", error);
+    // }
   };
 
   return (
@@ -71,6 +72,10 @@ const Login = () => {
                           /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                         message: "Invalid email address",
                       },
+                      minLength: {
+                        value: 3,
+                        message: "feild cannot be empty",
+                      },
                     })}
                   >
                     {errors.email && <span>{errors.email.message}</span>}
@@ -82,6 +87,10 @@ const Login = () => {
                     type="password"
                     {...register("password", {
                       required: "password is required",
+                      minLength: {
+                        value: 3,
+                        message: "feild cannot be empty",
+                      },
                     })}
                   >
                     {errors.password && <span>{errors.password.message}</span>}

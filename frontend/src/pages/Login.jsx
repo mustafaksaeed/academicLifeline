@@ -6,6 +6,7 @@ import auth from "../firebaseClient/firebaseClient.config";
 import AuthContext from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Backarrow from "../components/Backarrow";
 
 const Login = () => {
   const { currentUser } = useContext(AuthContext);
@@ -57,6 +58,7 @@ const Login = () => {
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
       >
+        <Backarrow />
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>

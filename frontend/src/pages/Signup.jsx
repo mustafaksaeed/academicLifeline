@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 // import { FirebaseError } from "firebase/app";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import Backarrow from "../components/Backarrow";
 const Signup = () => {
   const [loading, setLoading] = useState(false);
   const {
@@ -50,6 +50,7 @@ const Signup = () => {
       style={{ minHeight: "100vh" }}
     >
       <div className="w-100" style={{ maxWidth: "400px" }}>
+        <Backarrow />
         <Card>
           <Card.Body>
             <h2 className="text-center mb-4">Sign Up</h2>

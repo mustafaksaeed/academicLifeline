@@ -12,7 +12,11 @@ const Login = () => {
 
   // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   //    formState: { errors }
   const onSubmit = async (data) => {
     const { email, password } = data;
@@ -70,14 +74,13 @@ const Login = () => {
                           /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                         message: "Invalid email address",
                       },
-                      minLength: {
-                        value: 3,
-                        message: "feild cannot be empty",
-                      },
                     })}
-                  >
-                    {/* {errors.email && <span>{errors.email.message}</span>} */}
-                  </Form.Control>
+                  ></Form.Control>
+                  {errors.email && (
+                    <Alert variant="danger">
+                      <span>{errors.email.message}</span>{" "}
+                    </Alert>
+                  )}
                 </Form.Group>
                 <Form.Group id="password">
                   <Form.Label>Password</Form.Label>
@@ -85,14 +88,14 @@ const Login = () => {
                     type="password"
                     {...register("password", {
                       required: "password is required",
-                      minLength: {
-                        value: 3,
-                        message: "feild cannot be empty",
-                      },
                     })}
-                  >
-                    {/* {errors.password && <span>{errors.password.message}</span>} */}
-                  </Form.Control>
+                  ></Form.Control>
+
+                  {errors.password && (
+                    <Alert variant="danger">
+                      <span>{errors.password.message}</span>
+                    </Alert>
+                  )}
                 </Form.Group>
 
                 <Button type="submit" className="w-100 mt-4">

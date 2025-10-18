@@ -18,8 +18,8 @@ createRoot(document.getElementById("root")).render(
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route element={<ProtectedRoute />}>
-            <Route element={<Layouts />} path="/dashboard">
-              {Layouts}
+            <Route element={<Layouts />}>
+              <Route element={<Dashboard />} path="/dashboard"></Route>
             </Route>
           </Route>
         </Routes>

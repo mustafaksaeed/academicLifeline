@@ -6,7 +6,7 @@ const Layouts = () => {
   return (
     <>
       <UserNavbar />
-      <Dashboard />
+      <Outlet />
     </>
   );
 };

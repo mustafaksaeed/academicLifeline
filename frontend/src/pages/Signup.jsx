@@ -35,9 +35,12 @@ const Signup = () => {
       const responseData = await response.json();
       console.log("Success:", responseData);
       setLoading(true);
+
       navigate("/login");
+
       return responseData;
     } catch (error) {
+      setLoading(false);
       console.log("error", error);
     }
   };
@@ -50,7 +53,6 @@ const Signup = () => {
       style={{ minHeight: "100vh" }}
     >
       <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Backarrow />
         <Card>
           <Card.Body>
             <h2 className="text-center mb-4">Sign Up</h2>

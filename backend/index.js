@@ -43,15 +43,21 @@ app.get("/health", (req, res) => {
   console.log(req.body);
   res.send("ok");
 });
-
-app.get("/", (req, res) => {
-  if (req.session.views) {
-    req.session.views++;
-    res.send(`Number of views: ${req.session.views}`);
-  } else {
-    req.session.views = 1;
-    res.send("Welcome to this page for the first time!");
-  }
+app.get("/api/check-auth", authorize, (req, res) => {
+  res.status(200).json({
+    isAuthenticated: true,
+    userId: req.session.userId,
+  });
 });
+
+// app.get("/", (req, res) => {
+//   if (req.session.views) {
+//     req.session.views++;
+//     res.send(`Number of views: ${req.session.views}`);
+//   } else {
+//     req.session.views = 1;
+//     res.send("Welcome to this page for the first time!");
+//   }
+// });
 
 // run();

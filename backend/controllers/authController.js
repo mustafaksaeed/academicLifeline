@@ -22,9 +22,10 @@ export const login = async (req, res) => {
   const { token } = req.body;
   try {
     const verifyToken = await authenticateToken(token);
-    req.session.uid = decodedToken.uid;
-    res.send(verifyToken);
-    res.status(200).send("Session created");
+    req.session.userId = verifyToken;
+    req.session.isLoggedIn = true;
+    console.log("login successful");
+    res.status(200).json({ message: "Login successful. Session established." });
   } catch (error) {
     console.error("Error verifying ID token:", error);
     res.status(401).send("Unauthorized");

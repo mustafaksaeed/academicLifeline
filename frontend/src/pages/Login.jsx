@@ -46,6 +46,7 @@ const Login = () => {
       // console.log("Success:", responseData);
       // console.log("data", data.message);
       // auth.getInstance().getCurrentUser().reload();
+
       navigate("/dashboard");
     } catch (error) {
       console.log("error", error);
@@ -58,7 +59,6 @@ const Login = () => {
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
       >
-        <Backarrow />
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>

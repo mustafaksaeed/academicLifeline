@@ -5,5 +5,18 @@ import AuthContext from "./AuthContext";
 export default function ProtectedRoute() {
   const { currentUser } = useContext(AuthContext);
 
-  return currentUser ? <Outlet /> : <Navigate to="/login" />;
+  //check if user exists and check if session exists
+
+  const authCheck = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/check-auth");
+      const data = response.json();
+      if (data.userId && currentUser) {
+        return true;
+      }
+    } catch {
+      return false;
+    }
+  };
+  return authCheck() ? <Outlet /> : <Navigate to="/login" />;
 }

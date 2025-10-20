@@ -1,12 +1,11 @@
 import { authenticateToken } from "../db/functions.js";
-
+//sessions here
 const authorize = async (req, res, next) => {
-  const { token } = req.body;
-  try {
-    await authenticateToken(token);
+  if (req.session.isLoggedin) {
     next();
-  } catch (error) {
-    console.log("middleware error", error);
+  } else {
+    console.log("unauthorized");
+    res.status(401).send("Unauthorized");
   }
 };
 

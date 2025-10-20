@@ -22,8 +22,36 @@ export const login = async (req, res) => {
   const { token } = req.body;
   try {
     const verifyToken = await authenticateToken(token);
+    req.session.uid = decodedToken.uid;
     res.send(verifyToken);
+    res.status(200).send("Session created");
   } catch (error) {
-    console.log("error:", error);
+    console.error("Error verifying ID token:", error);
+    res.status(401).send("Unauthorized");
   }
 };
+
+/*
+
+app.use(session({
+  store: new FirestoreStore({
+    database: admin.firestore(), // Use your Firebase Firestore instance
+    // ... other options
+  }),
+  secret: 'your_secret_key', // Replace with a strong secret
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 3600000 } // 1 hour
+}));
+
+
+app.get('/profile', (req, res) => {
+  if (req.session.uid) {
+    res.send(`Welcome, user ${req.session.uid}!`);
+  } else {
+    res.redirect('/login');
+  }
+});
+
+
+*/

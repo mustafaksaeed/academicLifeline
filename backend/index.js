@@ -18,17 +18,20 @@ app.use(express.json());
 const uuid = uuidv4();
 app.use(
   session({
-    name: "SessionCookie",
-    genid: function (req) {
-      console.log("session id created");
-      return genuuid();
-    },
     secret: uuid,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, expires: 60000 },
+    cookie: {
+      maxAge: 3600000, //1 hour
+      httpOnly: true,
+      secure: true,
+    },
   })
 );
+// router.use((req, res, next) => {
+//   if (!req.session.userID) return res.status(403).send("not logged in");
+//   next();
+// });
 
 app.listen(port, () => {
   console.log("listening on port", port);
@@ -39,6 +42,16 @@ app.use("/courses", authorize, courseRoutes);
 app.get("/health", (req, res) => {
   console.log(req.body);
   res.send("ok");
+});
+
+app.get("/", (req, res) => {
+  if (req.session.views) {
+    req.session.views++;
+    res.send(`Number of views: ${req.session.views}`);
+  } else {
+    req.session.views = 1;
+    res.send("Welcome to this page for the first time!");
+  }
 });
 
 // run();

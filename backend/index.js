@@ -44,9 +44,8 @@ app.get("/health", (req, res) => {
   res.send("ok");
 });
 app.get("/api/check-auth", authorize, (req, res) => {
-  res.status(200).json({
-    isAuthenticated: true,
-    userId: req.session.userId,
+  res.send({
+    userId: req.session.isLoggedIn,
   });
 });
 

@@ -1,141 +1,51 @@
-import React, { useContext } from "react";
-import { Form, Button, Card, Container, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useEffect, useNavigate } from "react";
+import firebase from "firebase/compat/app";
+import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
 import auth from "../firebaseClient/firebaseClient.config";
-import AuthContext from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import Backarrow from "../components/Backarrow";
 
 const Login = () => {
-  const { currentUser } = useContext(AuthContext);
-
-  // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  //    formState: { errors }
-  const onSubmit = async (data) => {
-    const { email, password } = data;
-    console.log("curentuser", currentUser.accessToken);
-    try {
-      const credentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log("credentials", credentials);
-      const token = await credentials.user.getIdToken();
-      console.log("token", token);
-      const response = await fetch("http://localhost:8000/api/login", {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+
+  useEffect(() => {
+    const ui =
+      firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
+
+    ui.start("#firebaseui-auth-container", {
+      callbacks: {
+        signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+          // Action if the user is authenticated successfully
         },
-        body: JSON.stringify({
-          token: token,
-        }),
-      });
-      console.log("response", response);
-      // const responseData = await response.json();
-      // console.log("Success:", responseData);
-      // console.log("data", data.message);
-      // auth.getInstance().getCurrentUser().reload();
-
-      navigate("/dashboard");
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
+        uiShown: function () {
+          // This is what should happen when the form is full loaded. In this example, I hide the loader element.
+          document.getElementById("loader").style.display = "none";
+        },
+      },
+      signInSuccessUrl: "https://www.anyurl.com", // This is where should redirect if the sign in is successful.
+      signInOptions: [
+        // This array contains all the ways an user can authenticate in your application. For this example, is only by email.
+        {
+          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          requireDisplayName: true,
+          disableSignUp: {
+            status: true,
+          },
+        },
+      ],
+      tosUrl: "https://www.example.com/terms-conditions", // URL to you terms and conditions.
+      privacyPolicyUrl: function () {
+        // URL to your privacy policy
+        window.location.assign("https://www.example.com/privacy-policy");
+      },
+    });
+  }, []);
   return (
-    <>
-      <Container
-        className="d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh" }}
-      >
-        <div className="w-100" style={{ maxWidth: "400px" }}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center mb-4">Login</h2>
-
-              <Form onSubmit={handleSubmit(onSubmit)}>
-                <Form.Group id="email">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                        message: "Invalid email address",
-                      },
-                    })}
-                  ></Form.Control>
-                  {errors.email && (
-                    <Alert variant="danger">
-                      <span>{errors.email.message}</span>{" "}
-                    </Alert>
-                  )}
-                </Form.Group>
-                <Form.Group id="password">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    {...register("password", {
-                      required: "password is required",
-                    })}
-                  ></Form.Control>
-
-                  {errors.password && (
-                    <Alert variant="danger">
-                      <span>{errors.password.message}</span>
-                    </Alert>
-                  )}
-                </Form.Group>
-
-                <Button type="submit" className="w-100 mt-4">
-                  Submit
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-          <div className="w-100 text-center mt-2">
-            Dont have an account? <Link to="/signup">Sign up</Link>
-          </div>
-        </div>
-      </Container>
-    </>
+    <div>
+      <h1>Welcome to My Awesome App</h1>
+      <div id="firebaseui-auth-container"></div>
+      <div id="loader">Loading...</div>
+    </div>
   );
 };
 
 export default Login;
-
-//  fetch(endpoint, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(bookData),
-//   })
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error("Network response was not ok");
-//       }
-//       return response.json();
-//     })
-//     .then((data) => {
-//       console.log("Book added successfully:", data);
-//       event.target.reset(); // Reset the form after successful submission
-//       navigate("/"); // Navigate back to the home page
-//     })
-//     .catch((error) => {
-//       console.error("Error adding book:", error);
-//     });
-// };

@@ -25,7 +25,7 @@ export const login = async (req, res) => {
     req.session.userId = verifyToken;
     req.session.isLoggedIn = true;
     console.log("login successful", session);
-    res.status(200).json({ message: "Login successful. Session established." });
+    res.send(req.session);
   } catch (error) {
     console.error("Error verifying ID token:", error);
     res.status(401).send("Unauthorized");

@@ -5,8 +5,7 @@ import AuthContext from "./AuthContext";
 import auth from "../firebaseClient/firebaseClient.config";
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  //change to react from hook maybe?
-
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -27,3 +26,6 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+
+//let firebase do session management

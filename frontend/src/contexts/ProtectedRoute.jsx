@@ -4,11 +4,11 @@ import AuthContext from "./AuthContext";
 
 export default function ProtectedRoute() {
   const { currentUser } = useContext(AuthContext);
-
   const authCheck = async () => {
     try {
-      const response = await fetch("http://localhost:8000/courses");
+      const response = await fetch("http://localhost:8000/api/check-auth");
       const data = response.json();
+      console.log("data", data);
       if (data.userSession && currentUser) {
         return true;
       }

@@ -44,6 +44,7 @@ app.get("/health", (req, res) => {
   res.send("ok");
 });
 app.get("/api/check-auth", authorize, (req, res) => {
+  console.log("CHECK", req.session.isLoggedIn);
   res.send({
     userId: req.session.isLoggedIn,
   });

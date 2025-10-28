@@ -16,7 +16,7 @@ const Signup = () => {
   } = useForm();
 
   const navigate = useNavigate();
-  //here just do a post request sending the users email and password and do that
+
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {

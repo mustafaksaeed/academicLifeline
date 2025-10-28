@@ -59,4 +59,12 @@ export const createSession = async (token, expiresIn) => {
   }
 };
 
-export const verifySession = async (cookie) => {};
+export const verifySession = async (cookie) => {
+  const verifyCookie = auth.verifySessionCookie(sessionCookie, true);
+
+  if (!verifyCookie) {
+    return null;
+  }
+
+  return verifyCookie;
+};

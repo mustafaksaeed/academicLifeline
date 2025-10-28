@@ -20,9 +20,11 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { token, csrftoken } = req.body;
+  const { token, csrfToken } = req.body;
 
-  const idToken = token.toString();
+  const authToken = await authenticateToken(token);
+  const idToken = authToken.toString();
+
   const clientCsrfToken = csrfToken.toString();
   if (clientCsrfToken !== req.cookies.csrfToken) {
     res.status(401).send("UNAUTHORIZED REQUEST!");

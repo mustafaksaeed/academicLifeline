@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import auth from "../firebaseClient/firebaseClient.config";
 import { useForm } from "react-hook-form";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -13,12 +15,29 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+    return null;
+  };
+
   const onSubmit = async (data) => {
     const { email, password } = data;
 
-    const user = await auth.signInWithEmailAndPassword(email, password);
-    const userId = await user.getIdToken();
-    const csrfToken = await userId.getCookie("csrfToken");
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const idToken = await userCredential.user.getIdToken();
+    const csrfToken = getCookie("csrfToken");
+
+    // if (!csrfToken) {
+    //   console.error("error token not found in cookies");
+    //   setLoading(false);
+    //   return;
+    // }
 
     try {
       const response = await fetch("http://localhost:8000/api/login", {
@@ -28,15 +47,20 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
-          password: password,
-          token: userId,
+          token: idToken,
           csrfToken: csrfToken,
         }),
       });
 
+      await auth.signOut();
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || `HTTP Error: Status ${response.status}`);
+      }
       const info = await response.json();
       console.log("response data", info);
+
       setLoading(true);
       navigate("/dashboard");
     } catch (error) {
@@ -53,7 +77,7 @@ const Login = () => {
       <div className="w-100" style={{ maxWidth: "400px" }}>
         <Card>
           <Card.Body>
-            <h2 className="text-center mb-4">Sign Up</h2>
+            <h2 className="text-center mb-4">Login</h2>
 
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group id="email">
@@ -83,14 +107,14 @@ const Login = () => {
                 )}
               </Form.Group>
               <Button disabled={loading} type="submit" className="w-100 mt-3">
-                Sign Up
+                Login
               </Button>
             </Form>
           </Card.Body>
         </Card>
 
         <div className="w-100 text-center mt-2">
-          Already have an account? <Link to="/login">Log In</Link>
+          Don't have an account? <Link to="/login">Signup</Link>
         </div>
       </div>
     </Container>

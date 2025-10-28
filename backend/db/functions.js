@@ -49,7 +49,7 @@ export const createSession = async (token, expiresIn) => {
   const cookieOptions = { maxAge: expiresIn, httpOnly: true, secure: true };
 
   try {
-    const cookie = await auth.reateSessionCookie(token, { expiresIn });
+    const cookie = await auth.createSessionCookie(token, { expiresIn });
 
     res.cookie("session", sessionCookie, cookieOptions);
     res.status(200).json({ status: "success" });
@@ -59,7 +59,4 @@ export const createSession = async (token, expiresIn) => {
   }
 };
 
-
-export const verifySession = async(cookie) =>{
-  
-}
+export const verifySession = async (cookie) => {};

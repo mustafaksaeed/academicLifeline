@@ -17,8 +17,8 @@ const Login = () => {
     const { email, password } = data;
 
     const user = await auth.signInWithEmailAndPassword(email, password);
-    const userId = user.getIdToken();
-    const csrfToken = userId.getCookie("csrfToken");
+    const userId = await user.getIdToken();
+    const csrfToken = await userId.getCookie("csrfToken");
 
     try {
       const response = await fetch("http://localhost:8000/api/login", {

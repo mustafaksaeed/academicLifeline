@@ -2,6 +2,7 @@ import {
   createUser,
   authenticateToken,
   userExistsCheck,
+  createSession,
 } from "../db/functions.js";
 
 import auth from "../firebase/firebase.config.js";
@@ -19,17 +20,21 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { token } = req.body;
-  try {
-    const verifyToken = await authenticateToken(token);
-    req.session.userId = verifyToken;
-    req.session.isLoggedIn = true;
-    console.log("login successful", session);
-    res.send(req.session);
-  } catch (error) {
-    console.error("Error verifying ID token:", error);
-    res.status(401).send("Unauthorized");
+  const { email, password, token, csrfToken } = req.body;
+
+  const idToken = token.toString();
+  const csrfTokenVal = csrfToken.toString();
+
+  if (csrfToken !== req.cookies.csrfToken) {
+    res.status(401).send("UNAUTHORIZED REQUEST!");
+    return;
   }
+
+  // Set session expiration to 30 minutes.
+  const expiresIn = 60 * 30 * 1000;
+
+  await createSession(idToken, expiresIn);
+  
 };
 
 /*

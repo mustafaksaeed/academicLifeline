@@ -44,3 +44,22 @@ export const authenticateToken = async (token) => {
     console.log("error authentication token", error);
   }
 };
+
+export const createSession = async (token, expiresIn) => {
+  const cookieOptions = { maxAge: expiresIn, httpOnly: true, secure: true };
+
+  try {
+    const cookie = await auth.reateSessionCookie(token, { expiresIn });
+
+    res.cookie("session", sessionCookie, cookieOptions);
+    res.status(200).json({ status: "success" });
+  } catch (error) {
+    console.log("error", error);
+    res.status(401).send("UNAUTHORIZED REQUEST!");
+  }
+};
+
+
+export const verifySession = async(cookie) =>{
+  
+}

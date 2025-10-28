@@ -43,12 +43,6 @@ app.get("/health", (req, res) => {
   console.log(req.body);
   res.send("ok");
 });
-app.get("/api/check-auth", authorize, (req, res) => {
-  console.log("CHECK", req.session.isLoggedIn);
-  res.send({
-    userId: req.session.isLoggedIn,
-  });
-});
 
 // app.get("/", (req, res) => {
 //   if (req.session.views) {

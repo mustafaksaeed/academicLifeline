@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import auth from "../firebaseClient/firebaseClient.config";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
+import AuthContext from "../contexts/AuthContext";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+
+  const { setIsLoggedIn } = useContext(AuthContext);
 
   const {
     register,
@@ -31,40 +33,34 @@ const Login = () => {
       password
     );
     const idToken = await userCredential.user.getIdToken();
-    const csrfToken = getCookie("csrfToken");
-
-    // if (!csrfToken) {
-    //   console.error("error token not found in cookies");
-    //   setLoading(false);
-    //   return;
-    // }
 
     try {
       const response = await fetch("http://localhost:8000/api/login", {
         method: "post",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
         },
         body: JSON.stringify({
           token: idToken,
-          csrfToken: csrfToken,
+          csrfToken: getCookie("csrftoken"),
         }),
       });
 
       await auth.signOut();
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || `HTTP Error: Status ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   const errorText = await response.text();
+      //   throw new Error(errorText || `HTTP Error: Status ${response.status}`);
+      // }
       const info = await response.json();
       console.log("response data", info);
 
       setLoading(true);
-      navigate("/dashboard");
+      setIsLoggedIn(true);
     } catch (error) {
       setLoading(true);
+      setIsLoggedIn(false);
       console.log("error", error);
     }
   };

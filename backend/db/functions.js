@@ -45,7 +45,7 @@ export const authenticateToken = async (token) => {
   }
 };
 
-export const createSession = async (token, expiresIn) => {
+export const createSession = async (token, expiresIn, res) => {
   const cookieOptions = { maxAge: expiresIn, httpOnly: true, secure: true };
 
   try {

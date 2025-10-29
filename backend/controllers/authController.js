@@ -20,23 +20,24 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { token, csrfToken } = req.body;
+  const { token } = req.body;
 
-  const idToken = token ? token.toString() : "";
-
+  const idToken = token.toString();
   const authToken = await authenticateToken(idToken);
 
-  const clientCsrfToken = csrfToken ? csrfToken.toString() : "";
+  const clientCsrfToken = req.headers["x-csrftoken"];
+  const expiresIn = 60 * 30 * 1000;
+
   if (clientCsrfToken !== req.cookies.csrfToken) {
     res.status(401).send("UNAUTHORIZED REQUEST!");
     return;
   }
+  await createSession(idToken, expiresIn, res);
 
-  // Set session expiration to 30 minutes.
-  const expiresIn = 60 * 30 * 1000;
-
-  await createSession(res, idToken, expiresIn);
+  console.log("Token received from header:", clientCsrfToken);
 };
+
+// Set session expiration to 30 minutes.
 
 /*
 

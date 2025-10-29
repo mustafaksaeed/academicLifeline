@@ -5,7 +5,7 @@ import AuthContext from "./AuthContext";
 import auth from "../firebaseClient/firebaseClient.config";
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -20,12 +20,13 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    isLoggedIn,
+    setIsLoggedIn,
+    currentUser,
+    setCurrentUser,
+  };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
 
 //let firebase do session management

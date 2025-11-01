@@ -1,4 +1,4 @@
-import Button from "react-bootstrap/Button";
+import Button from "@mui/material/Button";
 
 function SideBarItems() {
   const sidbarItems = ["Assignments", "Courses", "Calendar", "Progress"];

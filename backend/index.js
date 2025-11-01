@@ -6,12 +6,14 @@ dotenv.config();
 import authRoutes from "./routes/authRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import authorize from "./middleware/authMiddleware.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.listen(port, () => {
   console.log("listening on port", port);

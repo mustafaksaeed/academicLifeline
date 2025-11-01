@@ -16,9 +16,12 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(null);
       }
     });
-
+   
+ 
     return unsubscribe;
   }, []);
+
+
 
   const value = {
     isLoggedIn,

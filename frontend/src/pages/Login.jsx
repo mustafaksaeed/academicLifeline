@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import auth from "../firebaseClient/firebaseClient.config";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { postIdTokenToSessionLogin } from "firebase/auth";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import AuthContext from "../contexts/AuthContext";
 
@@ -27,42 +27,31 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { email, password } = data;
 
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const idToken = await userCredential.user.getIdToken();
-
-    try {
-      const response = await fetch("http://localhost:8000/api/login", {
-        method: "post",
-        headers: {
-          Accept: "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
-        },
-        body: JSON.stringify({
-          token: idToken,
-          csrfToken: getCookie("csrftoken"),
-        }),
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        // Get the user's ID token as it is needed to exchange for a session cookie.
+        return user.getIdToken().then((idToken) => {
+          // Session login endpoint is queried and the session cookie is set.
+          // CSRF protection should be taken into account.
+          // ...
+          const csrfToken = getCookie("csrfToken");
+          return postIdTokenToSessionLogin(
+            "http://localhost:5173/api/login",
+            idToken,
+            csrfToken
+          );
+        });
+      })
+      .then(() => {
+        // A page redirect would suffice as the persistence is set to NONE.
+        return auth.signOut();
+      })
+      .then(() => {
+        setLoading(true);
+        setIsLoggedIn(true);
+        window.location.assign("/dashboard");
       });
-
-      await auth.signOut();
-
-      // if (!response.ok) {
-      //   const errorText = await response.text();
-      //   throw new Error(errorText || `HTTP Error: Status ${response.status}`);
-      // }
-      const info = await response.json();
-      console.log("response data", info);
-
-      setLoading(true);
-      setIsLoggedIn(true);
-    } catch (error) {
-      setLoading(true);
-      setIsLoggedIn(false);
-      console.log("error", error);
-    }
   };
 
   return (

@@ -2,19 +2,18 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 const Dashboard = () => {
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <Sidebar />
       <div
         style={{
           display: "flex",
-          height: "100vh",
+          height: "90vh",
           float: "left",
           width: "70%",
+          clear: "both",
         }}
       >
-        <div style={{ display: "flex", padding: "3vh" }}>
-          <h3>Dashboard</h3>
-        </div>
+        <h3>Dashboard</h3>
       </div>
     </div>
   );

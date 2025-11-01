@@ -7,7 +7,21 @@ const SideFooter = () => {
     "Terms of Services",
     "Contact Us",
   ];
-  return <div>SideFooter</div>;
+  return (
+    <div
+      style={{
+        padding: "6px",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div>
+        {sideFooterItems.map((data) => {
+          return <p>{data}</p>;
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default SideFooter;

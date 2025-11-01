@@ -1,26 +1,29 @@
-import Button from "react-bootstrap/Button";
-import Offcanvas from "react-bootstrap/Offcanvas";
+import React from "react";
 
-function Sidebar() {
-  const sidbarItems = ["Assignments", "Courses", "Calendar", "Progress"];
+import SideFooter from "./SideFooter";
+import SideBarItems from "./SideBarItems";
 
+const Sidebar = () => {
   return (
-    <>
+    <div style={{ marginRight: "3vh" }}>
+      <h3>DeadLine Tracker</h3>
       <div
         style={{
-          display: "flex",
-          height: "100vh",
+          height: "90vh",
           float: "left",
           width: "30%",
+          clear: "both",
+          marginLeft: "2vh",
+          flexDirection: "column",
         }}
       >
-        <div style={{ display: "flex", padding: "3vh" }}>
-          <h3>DeadLine Tracker</h3>
-          <div></div>
+        <div>
+          <SideBarItems />
+          <SideFooter />
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default Sidebar;

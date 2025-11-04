@@ -1,6 +1,7 @@
 import React from "react";
-import RecentActivityTable from "./RecentActivityTable";
-const RecentActivityItems = () => {
+import RecentActivityItems from "./RecentActivityItems";
+
+const RecentActivitySection = () => {
   const mockCourseActivity = [
     {
       name: "Final Project Proposal: Quantum Computing Ethics",
@@ -23,11 +24,12 @@ const RecentActivityItems = () => {
       deadline: "2025-10-25",
     },
   ];
+
   return (
     <div>
-      <RecentActivityTable course={mockCourseActivity} />
+      <RecentActivityItems course={mockCourseActivity} />
     </div>
   );
 };
 
-export default RecentActivityItems;
+export default RecentActivitySection;

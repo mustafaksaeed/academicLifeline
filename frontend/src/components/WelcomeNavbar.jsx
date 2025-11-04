@@ -1,42 +1,38 @@
-// import React from "react";
-// import { Navbar, Container } from "react-bootstrap";
-// import { Link } from "react-router-dom";
-// import logo from "../img/AcademicLifelinelogo.png";
-
-// const WelcomeNavbar = () => {
-//   return (
-//     <>
-//       <Navbar>
-//         <Container className="d-flex align-items-center me-4">
-//           <Navbar.Brand className="d-flex gap-2 ">
-//             <img
-//               src={logo}
-//               width="70"
-//               height="70"
-//               className="d-inline-block align-top"
-//               alt="Academic Lifeline logo"
-//             />
-//           </Navbar.Brand>
-//         </Container>
-//         <div className="d-flex justify-content-between gap-3 me-4">
-//           <Link to="/signup" className="nav-link">
-//             Sign up
-//           </Link>
-//           <Link to="/login" className="nav-link">
-//             Login
-//           </Link>
-//         </div>
-//       </Navbar>
-//     </>
-//   );
-// };
-
-// export default WelcomeNavbar;
-
 import React from "react";
 
+import { Link } from "react-router-dom";
+// import logo from "../img/AcademicLifelinelogo.png";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+
 const WelcomeNavbar = () => {
-  return <div></div>;
+  return (
+    <div>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            AcademicLifeline
+          </Typography>
+          <Button color="inherit">Login</Button>
+          <Button color="inherit">SignUp</Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 };
 
 export default WelcomeNavbar;

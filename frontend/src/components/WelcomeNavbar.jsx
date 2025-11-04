@@ -9,28 +9,32 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+// import ButtonLink from "./ButtonLink";
 
 const WelcomeNavbar = () => {
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            AcademicLifeline
-          </Typography>
-          <Button color="inherit">Login</Button>
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          AcademicLifeline
+        </Typography>
+
+        <Link to="/signup">
           <Button color="inherit">SignUp</Button>
-        </Toolbar>
-      </AppBar>
+        </Link>
+        <Link to="/login">
+          <Button color="inherit">Login</Button>
+        </Link>
+      </Toolbar>
     </div>
   );
 };

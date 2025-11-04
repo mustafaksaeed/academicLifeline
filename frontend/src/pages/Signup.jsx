@@ -128,7 +128,7 @@
 import React from "react";
 
 const Signup = () => {
-  return <div></div>;
+  return <div>Sign up page</div>;
 };
 
 export default Signup;

@@ -9,6 +9,8 @@ import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 
 const Signup = () => {
   // const [loading, setLoading] = React.useState(false);
@@ -58,15 +60,47 @@ const Signup = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        minHeight: "100vh",
+        width: "100%",
       }}
     >
-      {/* <div className="w-100" style={{ maxWidth: "400px" }}>
+      <Card variant="outlined" style={{ width: "400px" }}>
+        <CardContent
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            padding: "2.5rem",
+          }}
+        >
+          <h1 style={{ textAlign: "center" }}>Sign up</h1>
+          <Typography variant="h7">Email</Typography>
+          <TextField
+            id="outlined-helperText"
+            defaultValue="Default Value"
+            helperText="Some important text"
+          />
+          <Typography variant="h7 ">Password </Typography>
+          <TextField
+            id="outlined-helperText"
+            defaultValue="Default Value"
+            helperText="Some important text"
+          />
+          <Typography variant="h7"> ConfirmPassword </Typography>
+          <TextField
+            id="outlined-helperText"
+            defaultValue="Default Value"
+            helperText="Some important text"
+          />
+          <Button variant="contained" style={{ width: "50%" }}>
+            Submit
+          </Button>
+          {/* <div className="w-100" style={{ maxWidth: "400px" }}>
         <h2 className="text-center mb-4">Sign Up</h2>
         <Typography variant="h6">Email</Typography>
         <Typography variant="h6">Password </Typography>
         <Typography variant="h6"> ConfirmPassword </Typography> */}
-
-      {/*         
+          {/*         
             <h2 className="text-center mb-4">Sign Up</h2>
 
             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -133,7 +167,9 @@ const Signup = () => {
           Already have an account? <Link to="/login">Log In</Link>
         </div>
       </div> */}
-      {/* </div> */}
+          {/* </div> */}
+        </CardContent>
+      </Card>
     </div>
   );
 };

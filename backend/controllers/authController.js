@@ -15,6 +15,7 @@ export const register = async (req, res) => {
     await createUser(email, password);
   } catch (error) {
     console.log("error:", error);
+    res.send(error);
   }
 };
 

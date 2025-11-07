@@ -1,10 +1,9 @@
-import * as React from "react";
-
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // import { useAuth } from "../contexts/AuthProvider";
-// import { useForm } from "react-hook-form";
-// import { FirebaseError } from "firebase/app";
-// import { NavLink, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { FirebaseError } from "firebase/app";
+import { NavLink, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -13,46 +12,48 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 
 const Signup = () => {
-  // const [loading, setLoading] = React.useState(false);
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm();
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const onSubmit = async () => {
-  //   const { email, password } = data;
-  //   try {
-  //     const response = await fetch("http://localhost:8000/api/signup", {
-  //       method: "post",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         email: email,
-  //         password: password,
-  //       }),
-  //     });
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+    try {
+      const response = await fetch("http://localhost:8000/api/signup", {
+        method: "post",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
-  //     const responseData = await response.json();
-  //     console.log("Success:", responseData);
-  //     setLoading(true);
+      const responseData = await response.json();
+      console.log("Success:", responseData);
+      setLoading(true);
 
-  //     navigate("/login");
+      navigate("/login");
 
-  //     return responseData;
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.log("error", error);
-  //   }
-  //   console.log("hi");
-  // };
+      return responseData;
+    } catch (error) {
+      setLoading(false);
+      setServerError(error.message);
+      console.log("error", error);
+    }
+    console.log("hi");
+  };
 
-  // const password = watch("password", "value");
+  const password = watch("password", "value");
 
   return (
     <div
@@ -64,43 +65,80 @@ const Signup = () => {
         width: "100%",
       }}
     >
-      <Card variant="outlined" style={{ width: "400px" }}>
-        <CardContent
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            padding: "2.5rem",
-          }}
-        >
-          <h1 style={{ textAlign: "center" }}>Sign up</h1>
-          <Typography variant="h7">Email</Typography>
-          <TextField
-            id="outlined-helperText"
-            defaultValue="Default Value"
-            helperText="Some important text"
-          />
-          <Typography variant="h7 ">Password </Typography>
-          <TextField
-            id="outlined-helperText"
-            defaultValue="Default Value"
-            helperText="Some important text"
-          />
-          <Typography variant="h7"> ConfirmPassword </Typography>
-          <TextField
-            id="outlined-helperText"
-            defaultValue="Default Value"
-            helperText="Some important text"
-          />
-          <Button variant="contained" style={{ width: "50%" }}>
-            Submit
-          </Button>
-          {/* <div className="w-100" style={{ maxWidth: "400px" }}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card variant="outlined" style={{ width: "400px" }}>
+          <CardContent
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              padding: "2.5rem",
+            }}
+          >
+            <h1 style={{ textAlign: "center" }}>Sign up</h1>
+            <Typography variant="h7">Email</Typography>
+            <TextField
+              id="outlined-helperText"
+              defaultValue=""
+              helperText={errors.email && errors.email.message}
+              type="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                  message: "Invalid email address",
+                },
+              })}
+            />
+            <Typography variant="h7 ">Password </Typography>
+            <TextField
+              id="outlined-helperText"
+              defaultValue=""
+              helperText={errors.password && errors.password.message}
+              type="password"
+              {...register("password", {
+                required: "Password is required",
+                pattern: {
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message:
+                    "Password must have uppercase, lowercase, number, and special character",
+                },
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              })}
+            />
+            <Typography variant="h7"> ConfirmPassword </Typography>
+            <TextField
+              id="outlined-helperText"
+              defaultValue=""
+              helperText={
+                errors.passwordConfirm && errors.passwordConfirm.message
+              }
+              type="password"
+              {...register("passwordConfirm", {
+                required: "Please confirm your password",
+                validate: (value) =>
+                  value === password || "Passwords do not match",
+              })}
+            />
+            <Button
+              disabled={loading}
+              variant="contained"
+              style={{ width: "50%" }}
+              type="submit"
+            >
+              Submit
+            </Button>
+            <span>{serverError}</span>
+            {/* <div className="w-100" style={{ maxWidth: "400px" }}>
         <h2 className="text-center mb-4">Sign Up</h2>
         <Typography variant="h6">Email</Typography>
         <Typography variant="h6">Password </Typography>
         <Typography variant="h6"> ConfirmPassword </Typography> */}
-          {/*         
+            {/*         
             <h2 className="text-center mb-4">Sign Up</h2>
 
             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -167,9 +205,10 @@ const Signup = () => {
           Already have an account? <Link to="/login">Log In</Link>
         </div>
       </div> */}
-          {/* </div> */}
-        </CardContent>
-      </Card>
+            {/* </div> */}
+          </CardContent>
+        </Card>
+      </form>
     </div>
   );
 };

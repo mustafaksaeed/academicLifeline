@@ -49,7 +49,7 @@ export const createSession = async (token, expiresIn, res) => {
   const cookieOptions = { maxAge: expiresIn, httpOnly: true, secure: true };
 
   try {
-    const cookie = await createSessionCookie(auth, token, { expiresIn });
+    const cookie = await auth.createSessionCookie(token, { expiresIn });
 
     res.cookie("session", sessionCookie, cookieOptions);
     res.status(200).json({ status: "success" });

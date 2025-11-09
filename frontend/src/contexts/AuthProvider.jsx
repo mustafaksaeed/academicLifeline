@@ -5,7 +5,7 @@ import AuthContext from "./AuthContext";
 import auth from "../firebaseClient/firebaseClient.config";
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  // const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const value = {
-    isLoggedIn,
     currentUser,
     setCurrentUser,
   };

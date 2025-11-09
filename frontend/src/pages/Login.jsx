@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
-import auth from "../firebaseClient/firebaseClient.config";
+import React, { useState } from "react";
+import auth from "../firebaseClient/firebaseClient.config.js";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-
+import { signInWithEmailAndPassword } from "firebase/auth";
 import AuthContext from "../contexts/AuthContext";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useContext(AuthContext);
+  // const { setIsLoggedIn } = useContext(AuthContext);
 
   const {
     register,
@@ -34,7 +34,8 @@ const Login = () => {
     const { email, password } = data;
 
     try {
-      const userCredential = await auth.signInWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
         email,
         password
       );
@@ -57,15 +58,15 @@ const Login = () => {
 
       await auth.signOut();
 
-      const data = response.json();
+      const data = await response.json();
       console.log("data", data);
       setLoading(true);
-      setIsLoggedIn(true);
+      // setIsLoggedIn(true);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login Error:", error);
 
-      setLoading(false);
+      // setLoading(false);
     }
   };
 

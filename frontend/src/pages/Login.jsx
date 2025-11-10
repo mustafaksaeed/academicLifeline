@@ -56,10 +56,20 @@ const Login = () => {
         }),
       });
 
+      if (!response.ok) {
+        // Log the status code and try to read the body as text for debugging
+        const errorText = await response.text();
+        console.error(`HTTP Error: ${response.status} ${response.statusText}`);
+        console.error("Server returned:", errorText);
+
+        // Throw an error to jump to the catch block
+        throw new Error(`Server login failed with status ${response.status}`);
+      }
       await auth.signOut();
 
       const data = await response.json();
       console.log("data", data);
+      console.log("hi");
       setLoading(true);
       // setIsLoggedIn(true);
       navigate("/dashboard");

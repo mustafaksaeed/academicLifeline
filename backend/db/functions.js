@@ -41,11 +41,12 @@ export const authenticateToken = async (token) => {
     return atoken;
     console.log("token authorized");
   } catch (error) {
-    console.log("error authentication token", error);
+    console.error("Firebase ID Token Verification Failed:", error.message);
   }
 };
 
-export const createSession = async (token, expiresIn, res) => {
+export const createSession = async (token, res) => {
+  const expiresIn = 60 * 60 * 1000;
   const cookieOptions = { maxAge: expiresIn, httpOnly: true, secure: true };
 
   try {
@@ -55,12 +56,12 @@ export const createSession = async (token, expiresIn, res) => {
     res.status(200).json({ status: "success" });
   } catch (error) {
     console.log("error", error);
-    res.status(401).send("UNAUTHORIZED REQUEST!");
+    res.send("UNAUTHORIZED REQUEST!");
   }
 };
 
 export const verifySession = async (cookie) => {
-  const verifyCookie = verifySessionCookie(auth, sessionCookie, true);
+  const verifyCookie = verifySessionCookie(auth, cookie, true);
 
   if (!verifyCookie) {
     return null;

@@ -1,8 +1,10 @@
+import { getAuth } from "firebase/auth";
 import {
   createUser,
   authenticateToken,
   userExistsCheck,
   createSession,
+  verifySession,
 } from "../db/functions.js";
 
 import auth from "../firebase/firebase.config.js";
@@ -21,21 +23,17 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  // Get the ID token passed and the CSRF token.
-  const idToken = req.body.idToken;
-  const csrfToken = req.body.csrfToken;
-  // Guard against CSRF attacks.
-  // if (csrfToken !== req.cookies.csrfToken) {
-  //   res.status(401).send("UNAUTHORIZED REQUEST!");
-  //   console.log(
-  //     "csrfToken,  req.cookies.csrfToken",
-  //     csrfToken,
-  //     req.cookies.csrfToken
-  //   );
-  //   return;
-  // }
+  const { idToken, csrfToken } = req.body;
 
-  const expiresIn = 60 * 60 * 1000;
+  if (csrfToken !== req.cookies.csrfToken) {
+    res.status(401).send("UNAUTHORIZED REQUEST!");
+  }
 
-  await createSession(auth, idToken, expiresIn, res);
+  try {
+    await authenticateToken(auth, idToken);
+    await verifySession(auth, csrfToken);
+    return await createSession(auth, idToken, res);
+  } catch (error) {
+    console.log("error", error);
+  }
 };

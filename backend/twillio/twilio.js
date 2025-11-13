@@ -7,30 +7,30 @@ const client = twilio(accountSid, authToken);
 const twilioNum = process.env.twilioNum;
 const myNum = process.env.myNum;
 
-/*
-async function createCall() {
-  const call = await client.calls.create({
-    from: twilioNum,
-    to: myNum,
-    url: "http://demo.twilio.com/docs/voice.xml",
-  });
+export async function createCall() {
+  try {
+    const call = await client.calls.create({
+      from: twilioNum,
+      to: myNum,
+      url: "http://demo.twilio.com/docs/voice.xml",
+    });
+  } catch (error) {
+    console.log("error with call", error);
+  }
 
   console.log(call.sid);
 }
-createCall();
-*/
-/*
-demo code works!
-async function createMessage() {
-  const message = await client.messages.create({
-    body: "hello",
-    from: twilioNum,
-    to: myNum,
-  });
+
+export async function createMessage() {
+  try {
+    const message = await client.messages.create({
+      body: "hello",
+      from: twilioNum,
+      to: myNum,
+    });
+  } catch (error) {
+    console.log("error with message", message);
+  }
 
   console.log(message.body);
 }
-
-createMessage();
-
-*/

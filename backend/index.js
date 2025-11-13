@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-// import run from "./db/database.js";
 dotenv.config();
+import { createCall, createMessage } from "./twillio/twilio.js";
+// import run from "./db/database.js";
 import authRoutes from "./routes/authRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js";
 import authorize from "./middleware/authMiddleware.js";
@@ -25,3 +26,6 @@ app.get("/health", (req, res) => {
   console.log(req.body);
   res.send("ok");
 });
+
+createCall();
+createMessage();

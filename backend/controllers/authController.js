@@ -1,11 +1,19 @@
+import passport from "passport";
+import LocalStrategy from "passport-local";
+import crypto from "crypto ";
 
-
-//check is user exists in mongodb and pass the , idk if the user id is the token idk figire that out
-// save the uid, and email not password since firebase handles that
 export const register = async (req, res) => {
-  
+  const { email, password } = req.body;
+
+  //check if user exists => res.send error
+  //if not create new user
+  //hashpassword btw too
 };
 
 export const login = async (req, res) => {
-
+  const { email, password } = req.body;
+  //check if user exists
+  //if user exists check if password is correct
+  //create new session
+  //res.send any errors
 };

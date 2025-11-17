@@ -4,7 +4,7 @@ import SideBarItems from "./SideBarItems";
 
 const Sidebar = () => {
   return (
-    <div>
+    <div style={{ width: "250px", height: "100%" }}>
       <SideBarItems />
     </div>
   );

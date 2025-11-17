@@ -1,19 +1,48 @@
-import passport from "passport";
-import LocalStrategy from "passport-local";
-import crypto from "crypto ";
+import database from "../db/database.js";
+import User from "../models/userModel.js";
+import bcrypt from "bcrypt";
 
 export const register = async (req, res) => {
   const { email, password } = req.body;
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).send("User with that email already exists.");
+    }
 
-  //check if user exists => res.send error
-  //if not create new user
-  //hashpassword btw too
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      email: email,
+      password: hashedPassword,
+    });
+    await newUser.save();
+
+    res.status(201).send({
+      message: "User created successfully!",
+      userId: newUser._id,
+    });
+  } catch (err) {
+    console.error("Sign-up error:", err);
+    res.status(500).send("Server error during sign-up.");
+  }
 };
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  //check if user exists
-  //if user exists check if password is correct
-  //create new session
-  //res.send any errors
+  //check if email exists
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(409).send("invalid credentials");
+  }
+
+  const passwordMatch = bcrypt.compare(password, user.password);
+
+  if (password) {
+    //create sessiom
+    res.send("user logged in");
+  } else {
+    return res.status(409).send("invalid password");
+  }
 };

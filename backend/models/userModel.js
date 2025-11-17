@@ -10,7 +10,6 @@ const userSchema = Schema({
   },
   phoneNumber: {
     type: Number,
-    required: true,
   },
   firstName: {
     type: String,

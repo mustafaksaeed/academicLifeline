@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import { useAuth } from "../contexts/AuthProvider";
+
 import { useForm } from "react-hook-form";
-import { FirebaseError } from "firebase/app";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 
 const Signup = () => {
   const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
+  const [serverMessage, setServerMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -44,10 +44,9 @@ const Signup = () => {
 
       navigate("/login");
 
-      return responseData;
+      setServerMessage(responseData.message);
     } catch (error) {
       setLoading(false);
-      setServerError(error.message);
       console.log("error", error);
     }
     console.log("hi");
@@ -132,7 +131,7 @@ const Signup = () => {
             >
               Submit
             </Button>
-            <span>{serverError}</span>
+
             {/* <div className="w-100" style={{ maxWidth: "400px" }}>
         <h2 className="text-center mb-4">Sign Up</h2>
         <Typography variant="h6">Email</Typography>
@@ -207,6 +206,7 @@ const Signup = () => {
       </div> */}
             {/* </div> */}
           </CardContent>
+          <span>{serverMessage}</span>
         </Card>
       </form>
     </div>

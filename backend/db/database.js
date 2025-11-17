@@ -6,17 +6,13 @@ const uri = process.env.URI;
 const clientOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
 };
-async function run() {
+
+export default async function db() {
   try {
     await mongoose.connect(uri, clientOptions);
-
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    await mongoose.disconnect();
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
   }
 }
-run().catch(console.dir);
-
-export default run;

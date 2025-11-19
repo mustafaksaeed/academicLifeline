@@ -5,7 +5,8 @@ import bcrypt from "bcrypt";
 export const register = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: email });
+
     if (existingUser) {
       return res.status(409).send("User with that email already exists.");
     }
@@ -30,9 +31,9 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  //check if email exists
+  
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: email });
   if (!user) {
     return res.status(409).send("invalid credentials");
   }

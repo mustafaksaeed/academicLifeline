@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -21,7 +21,7 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     const { email, password } = data;
@@ -42,7 +42,7 @@ const Signup = () => {
       console.log("Success:", responseData);
       setLoading(true);
 
-      navigate("/login");
+      // navigate("/login");
 
       setServerMessage(responseData.message);
     } catch (error) {

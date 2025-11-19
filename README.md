@@ -26,3 +26,6 @@ npm run dev
 
 
 - PS i will be updating the readme as the progess progresses 
+
+
+- link for theme: https://colorhunt.co/palette/ecf4e8cbf3bbabe7b293bfc7

@@ -1,7 +1,7 @@
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box"; // Good for general div-like containers
 import Typography from "@mui/material/Typography"; // Good for text/headings
-
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 const SideBarItems = () => {
   const sidebarItems = ["Dashboard", "Assignments", "Courses", "Calendar"];
   return (
@@ -30,9 +30,9 @@ const SideBarItems = () => {
           gap: 1,
         }}
       >
-        {sidebarItems.map((info) => (
+        {sidebarItems.map((info, index) => (
           <Button
-            key={info}
+            key={index}
             variant="text"
             fullWidth
             sx={{
@@ -43,7 +43,7 @@ const SideBarItems = () => {
               color: "text.primary",
             }}
           >
-            {info}
+            <Link to={`/${info.toLowerCase()}`}>{info}</Link>
           </Button>
         ))}
       </Box>

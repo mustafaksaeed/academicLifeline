@@ -11,7 +11,7 @@ import Layouts from "./Layouts/Layouts.jsx";
 import Courses from "./pages/Courses";
 import Assignments from "./pages/Assignments";
 import Calendar from "./pages/Calendar";
-import MainLayout from "./Layouts/MainLayout.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>

@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Calendar = () => {
-  return (
-    <div>Calendar</div>
-  )
-}
+  return <div style={{ flexGrow: "1", padding: "20px" }}>Calendar</div>;
+};
 
-export default Calendar
+export default Calendar;

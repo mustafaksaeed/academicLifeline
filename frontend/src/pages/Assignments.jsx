@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Assignments = () => {
-  return (
-    <div>Assignments</div>
-  )
-}
+  return <div style={{ flexGrow: "1", padding: "20px" }}>Assignments</div>;
+};
 
-export default Assignments
+export default Assignments;

@@ -2,25 +2,14 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import DeadlineSection from "../components/DeadlineSection";
 import RecentActivitySection from "../components/RecentActivitySection";
+
 const Dashboard = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        marginLeft: "0",
-      }}
-    >
-      <div style={{ marginTop: "1.5rem", marginLeft: "-0.6rem" }}>
-        <Sidebar />
-      </div>
-      <div style={{ flexGrow: "1", padding: "20px" }}>
-        <h3>DashboardContent</h3>
-        <DeadlineSection />
-        <div>
-          <RecentActivitySection />
-        </div>
+    <div style={{ flexGrow: "1", padding: "20px" }}>
+      <h3>DashboardContent</h3>
+      <DeadlineSection />
+      <div>
+        <RecentActivitySection />
       </div>
     </div>
   );

@@ -8,6 +8,10 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import ProtectedRoute from "./contexts/ProtectedRoute.jsx";
 import Layouts from "./Layouts/Layouts.jsx";
+import Courses from "./pages/Courses";
+import Assignments from "./pages/Assignments";
+import Calendar from "./pages/Calendar";
+import MainLayout from "./Layouts/MainLayout.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
@@ -18,7 +22,10 @@ createRoot(document.getElementById("root")).render(
           <Route path="/signup" element={<Signup />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<Layouts />}>
-              <Route element={<Dashboard />} path="/dashboard"></Route>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/assignments" element={<Assignments />} />
+              <Route path="/calendar" element={<Calendar />} />
             </Route>
           </Route>
         </Routes>

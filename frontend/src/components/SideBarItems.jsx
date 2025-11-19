@@ -8,15 +8,14 @@ const SideBarItems = () => {
     <Box
       sx={{
         padding: 2,
-        backgroundColor: "grey.50",
+        backgroundColor: "#ECF4E8",
         height: "100%",
       }}
     >
-      {/* Title/Header Styling */}
       <Typography
         variant="h6"
         sx={{
-          mb: 3, // Margin Bottom: 3 units (24px by default)
+          mb: 3,
           fontWeight: "bold",
           color: "primary.main",
         }}
@@ -24,7 +23,6 @@ const SideBarItems = () => {
         Deadline Tracker
       </Typography>
 
-      {/* Button Container Styling */}
       <Box
         sx={{
           display: "flex",
@@ -35,14 +33,14 @@ const SideBarItems = () => {
         {sidebarItems.map((info) => (
           <Button
             key={info}
-            variant="text" // 'text' or 'ghost' buttons look better in sidebars than 'contained'
-            fullWidth // Makes the button take up 100% of the width
+            variant="text"
+            fullWidth
             sx={{
-              justifyContent: "flex-start", // Align text to the left
+              justifyContent: "flex-start",
               "&:hover": {
-                backgroundColor: "grey", // Subtle hover effect
+                backgroundColor: "grey",
               },
-              color: "text.primary", // Ensure text color is readable
+              color: "text.primary",
             }}
           >
             {info}

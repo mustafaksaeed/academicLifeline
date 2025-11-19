@@ -1,8 +1,11 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
-import DeadlineSection from "../components/DeadlineSection";
-import RecentActivitySection from "../components/RecentActivitySection";
-const Dashboard = () => {
+import Courses from "../pages/Courses";
+import Assignments from "../pages/Assignments";
+import Calendar from "../pages/Calendar";
+import { Outlet } from "react-router-dom";
+
+const MainLayout = () => {
   return (
     <div
       style={{
@@ -16,14 +19,10 @@ const Dashboard = () => {
         <Sidebar />
       </div>
       <div style={{ flexGrow: "1", padding: "20px" }}>
-        <h3>DashboardContent</h3>
-        <DeadlineSection />
-        <div>
-          <RecentActivitySection />
-        </div>
+        <Outlet />
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default MainLayout;

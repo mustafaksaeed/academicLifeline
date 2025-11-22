@@ -3,7 +3,13 @@ import Typography from "@mui/material/Typography"; // Good for text/headings
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 const SideBarItems = () => {
-  const sidebarItems = ["Dashboard", "Assignments", "Courses", "Calendar"];
+  const sidebarItems = [
+    "Dashboard",
+    "Assignments",
+    "Add Course",
+    "Courses",
+    "Calendar",
+  ];
   return (
     <Box
       sx={{
@@ -43,7 +49,11 @@ const SideBarItems = () => {
               color: "text.primary",
             }}
           >
-            <Link to={`/${info.toLowerCase()}`}>{info}</Link>
+            <Link
+              to={`/${info.split("").join("").replace(" ", "").toLowerCase()}`}
+            >
+              {info}
+            </Link>
           </Button>
         ))}
       </Box>

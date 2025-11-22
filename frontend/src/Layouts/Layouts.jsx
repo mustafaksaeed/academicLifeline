@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import UserNavbar from "../components/UserNavbar";
+
 import Dashboard from "../pages/Dashboard";
 import Courses from "../pages/Courses";
 import Assignments from "../pages/Assignments";
@@ -11,30 +11,23 @@ const Layouts = () => {
     <>
       <div
         style={{
+          display: "flex",
           maxWidth: "1200px",
+          margin: "0 auto",
+          marginLeft: "0",
+          height: "100vh",
         }}
       >
-        <UserNavbar />
         <div
           style={{
-            display: "flex",
-            maxWidth: "1200px",
-            margin: "0 auto",
-            marginLeft: "0",
+            marginLeft: "-0.6rem",
+            height: "100vh",
           }}
         >
-          <div
-            style={{
-              marginTop: "1.5rem",
-              marginLeft: "-0.6rem",
-              height: "100vh",
-            }}
-          >
-            <Sidebar />
-          </div>
-          <div style={{ flexGrow: "1", padding: "20px" }}>
-            <Outlet />
-          </div>
+          <Sidebar />
+        </div>
+        <div style={{ flexGrow: "1", padding: "20px" }}>
+          <Outlet />
         </div>
       </div>
     </>

@@ -11,6 +11,7 @@ import Layouts from "./Layouts/Layouts.jsx";
 import Courses from "./pages/Courses";
 import Assignments from "./pages/Assignments";
 import Calendar from "./pages/Calendar";
+import AddCourse from "./pages/AddCourse.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="/courses" element={<Courses />} />
               <Route path="/assignments" element={<Assignments />} />
               <Route path="/calendar" element={<Calendar />} />
+              <Route path="/addcourse" element={<AddCourse />} />
             </Route>
           </Route>
         </Routes>
